@@ -65,13 +65,17 @@ export function FunWithMaps(map: google.maps.Map) {
   // Take a look at the documentation
   // https://developers.google.com/maps/documentation/javascript/controls#ControlPositioning
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(controls);
+  map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(legend);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingControls);
+  map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(katlink);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(place_search);
 
   directionCalculator(map);
   placesSearch(map);
   listenForDrawing(map);
   loadAllMarkers(map);
   loadHeatmapData();
-  loadGeoJson(map);
+  //loadGeoJson(map);
 }
 
 function coords(x: number, y: number) {
@@ -257,7 +261,7 @@ function loadGeoJson(map: google.maps.Map) {
    *
    * https://developers.google.com/maps/documentation/javascript/datalayer#change_appearance_dynamically
    */
-
+  /*
   map.data.setStyle((feature: any) => {
     // let lon =
     /**
@@ -267,7 +271,7 @@ function loadGeoJson(map: google.maps.Map) {
      *
      *
      * If you do not undestand what the function mapNumber does, read it and ask me!
-     */
+     
     // let value = 255 - Math.round(mapNumber(lon, 0, 5, 0, 255));
     // let color = "rgb(" + value + "," + value + "," + 0 + ")";
     // return {
@@ -279,10 +283,11 @@ function loadGeoJson(map: google.maps.Map) {
   /**
    * Let's create an info window which will display the prevalence information
    * when a shape/feature is clicked.
-   */
+  
   map.data.addListener("click", e => {
     /**
      * Info window here
-     */
+     
   });
+  */
 }

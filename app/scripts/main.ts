@@ -27,6 +27,12 @@ function initMap() {
      *
      * https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/javascript/reference/map#MapOptions
      */
+     backgroundColor: "white",
+     draggable: true,
+     mapTypeControl: true,
+     streetViewControl: true,
+     zoomControl: true,
+
   });
   FunWithMaps(map);
 }
