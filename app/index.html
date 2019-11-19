@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1,initial-scale=1"
+    />
+    <link rel="canonical" href="/" />
+    <title>Google Maps Platform exploration</title>
+    <link rel="stylesheet" type="text/css" href="styles/main.min.css" />
+
+    <meta name="theme-color" content="#ff00ff" />
+    <meta
+      name="description"
+      content="This is a showcase for Google Maps Platform"
+    />
+
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Gmaps" />
+    <link rel="apple-touch-icon" href="images/icons/icon-152x152.png" />
+    <meta
+      name="msapplication-TileImage"
+      content="images/icons/icon-144x144.png"
+    />
+    <meta name="msapplication-TileColor" content="#2F3BA2" />
+  </head>
+
+  <body>
+    <main>
+      <div id="controls" class="controls">
+        <div>
+          <p>City Chooser</p>
+          <button id="city-lon">London</button>
+          <button id="city-man">Manchester</button>
+        </div>
+        <div>
+          <p>Theme Chooser</p>
+          <button id="lights">
+            Lights on/off
+          </button>
+        </div>
+        <div class="masts">
+          <p>Masts</p>
+          <button id="masts-toggle">
+            Hide/Show Masts
+          </button>
+          <button id="cluster-toggle">
+            Hide/Show Cluster
+          </button>
+          <label for="clusters">Grid size</label>
+          <input
+            id="cluster-range"
+            type="range"
+            name="clusters"
+            min="0"
+            max="250"
+          />
+        </div>
+        <div>
+          <p>
+            Rents
+          </p>
+          <button id="heatmap-toggle">
+            Hide/Show Rent Heatmap
+          </button>
+          <label for="Radius">Heatmap radius</label>
+          <input
+            id="heatmap-range"
+            type="range"
+            name="Radius"
+            min="0"
+            max="70"
+          />
+        </div>
+
+        <div class="codes">
+          <a href="https://github.com/mandarini/ng-gmap" target="_blank"
+            >gimme teh codez</a
+          >
+        </div>
+      </div>
+      <div id="place-search" class="search-places">
+        <div class="search">
+          <input id="place-input" type="text" placeholder="Enter a location" />
+          <div class="strict-select">
+            <input type="checkbox" id="use-strict-bounds" value="" />
+            <label for="use-strict-bounds">Strict Bounds</label>
+          </div>
+        </div>
+        <div class="directions">
+          <div class="inputs">
+            <input id="origin" type="text" placeholder="Enter origin" />
+            <input
+              id="destination"
+              type="text"
+              placeholder="Enter destination"
+            />
+          </div>
+          <div class="distance">
+            <p>Distance and duration: <span id="distance"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div id="drawingControls" class="drawing"></div>
+      <div id="map" class="map"></div>
+      <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon" />
+        <span id="place-name" class="title"></span><br />
+        <span id="place-address"></span>
+      </div>
+      <div class="my-link" id="katlink">
+        <a href="https://psyber.city" target="_blank">psybercity 🐈</a>
+      </div>
+    </main>
+    <script src="scripts/bundle.js"></script>
+    <script type="text/javascript" src="./markerclusterer.js"></script>
+  </body>
+</html>
