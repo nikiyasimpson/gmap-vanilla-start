@@ -24,4 +24,9 @@ gulp watch
 
 ## Tutorial
 
-Follow this tutorial to get started.
+Start with `map.ts`, and see the suggestions in the comments.
+We'll try together to complete the tasks suggested there.
+
+## Further steps
+
+Try to create a color chooser for your map colors and styles.

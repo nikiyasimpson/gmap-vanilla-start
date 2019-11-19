@@ -73,6 +73,17 @@ function calculateAndDisplayRoute(
     destination.value &&
     destination.value.length > 0
   ) {
+    /**
+     * Let's take a look at the Directions Service documentation.
+     * See the Directions Request class.
+     * https://developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRequest
+     *
+     * What other options can we add?
+     * Let's change the travel mode.
+     * (https://developers.google.com/maps/documentation/javascript/reference/directions#TravelMode)
+     *
+     * Or, let's keep driving, but avoid tolls.
+     */
     directionsService.route(
       {
         origin: { query: origin.value },
@@ -93,6 +104,16 @@ function calculateAndDisplayRoute(
               if (status !== "OK") {
                 alert("Error was: " + status);
               } else {
+                /**
+                 *
+                 * What's going on here?
+                 * What is the result of the Distance Matrix service?
+                 *
+                 * Take a look here:
+                 * https://developers.google.com/maps/documentation/javascript/reference/distance-matrix#DistanceMatrixResponseElement
+                 *
+                 * Do we want to display anything else?
+                 */
                 (document.getElementById(
                   "distance"
                 ) as HTMLSpanElement).textContent =

@@ -31,9 +31,18 @@ export function placesSearch(map: google.maps.Map) {
     const infowindow = new google.maps.InfoWindow();
     const infowindowContent = document.getElementById("infowindow-content");
     infowindow.setContent(infowindowContent);
-    console.log(place);
 
     let address = "";
+
+    /**
+     * Let's take a look at the placeresult interface
+     * https://developers.google.com/maps/documentation/javascript/reference/places-service#PlaceResult
+     *
+     * And let's add opening hours to our results, if they exist.
+     *
+     * We can also add the ratings of each place.
+     * Let's take a look.
+     */
     if (place.address_components) {
       address = [
         (place.address_components[0] &&

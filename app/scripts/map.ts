@@ -22,7 +22,6 @@ let clustersVisible: boolean = false;
 let heatmap: google.maps.visualization.HeatmapLayer;
 let lettings: string[][];
 
-let showLonely: boolean = false;
 let prevalence: string;
 let heatmapVisible: boolean = false;
 
@@ -36,25 +35,36 @@ export function FunWithMaps(map: google.maps.Map) {
     }
   );
 
+  /**
+   * Let's look at the Styled Map.
+   *
+   * Now, why don't you create your own style map,
+   * and add it to the options.
+   */
+
   map.setCenter(london);
   map.mapTypes.set("dark_map", darkmap);
   map.setMapTypeId("dark_map");
 
-  map.controls[google.maps.ControlPosition.LEFT_TOP].push(
-    document.getElementById("controls")
+  const controls: HTMLElement = document.getElementById("controls");
+
+  // Add the legend to the bottom left
+  const legend: HTMLElement = document.getElementById("legend");
+
+  // Add the drawing controls to the top right
+  const drawingControls: HTMLElement = document.getElementById(
+    "drawingControls"
   );
-  map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(
-    document.getElementById("legend")
-  );
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
-    document.getElementById("drawingControls")
-  );
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
-    document.getElementById("katlink")
-  );
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-    document.getElementById("place-search")
-  );
+
+  // Add the link to my side to the bottom right
+  const katlink: HTMLElement = document.getElementById("katlink");
+
+  // Add the places search to the top center
+  const place_search: HTMLElement = document.getElementById("place-search");
+
+  // Take a look at the documentation
+  // https://developers.google.com/maps/documentation/javascript/controls#ControlPositioning
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(controls);
 
   directionCalculator(map);
   placesSearch(map);
@@ -79,19 +89,48 @@ function loadAllMarkers(map: google.maps.Map): void {
     })
     .then((response_masts: { meta: {}; data: string[][] }) => {
       masts = response_masts.data;
+
+      /**
+       * These data contain latitude and longitude information
+       * about electricity masts.
+       * If you look at the data, you will see that
+       * the latitude is at position 18, and the longitude is at position 17.
+       *
+       * In order to create a latitude and longitude object,
+       * we would do that, for each one of the array entries/lines:
+       *
+       * new google.maps.LatLng(
+       *     parseFloat(x[18]),
+       *     parseFloat(x[17])
+       *   )
+       *
+       *
+       * That said, add a marker for each mast on the map,
+       * with the antenna icon.
+       *
+       * Use documentation here:
+       *
+       * https://developers.google.com/maps/documentation/javascript/markers#add
+       */
+
       masts.map((x: string[]) => {
-        let marker = new google.maps.Marker({
-          position: new google.maps.LatLng(
-            parseFloat(x[18]),
-            parseFloat(x[17])
-          ),
-          icon: antenna
-        });
+        let marker = new google.maps.Marker();
+        /**
+         * Marker contents here
+         */
+
+        /**
+         * Now, let's create an info window.
+         * The data at position 14 of each row tells us the address of the masts.
+         * When a user clicks on the marker, we want an info window to pop up
+         * displaying only the address of the mast.
+         *
+         */
         infoWindow = new google.maps.InfoWindow();
         marker.addListener("click", e => {
-          infoWindow.setPosition(e.latLng);
-          infoWindow.setContent(`<p>${x[14]}</p>`);
-          infoWindow.open(map, marker);
+          /**
+           * Info window here
+           */
         });
         markers.push(marker);
       });
@@ -174,6 +213,12 @@ function loadHeatmapData() {
     .then((data: { meta: {}; data: string[][] }) => {
       lettings = data.data;
       let heatmapData: {}[] = [];
+
+      /**
+       *
+       * Let's look at our data
+       * and understand what this function does
+       */
       lettings.map((x: string[]) => {
         if (x[24] && x[23]) {
           heatmapData.push({
@@ -197,29 +242,47 @@ function loadHeatmapData() {
     });
 }
 function loadGeoJson(map: google.maps.Map) {
-  map.data.loadGeoJson("assets/data/lonely.geojson");
-  map.data.addListener("mouseover", e => {
-    showLonely = true;
-    prevalence = e.feature.getProperty("PREVALENCE");
-  });
-  map.data.addListener("mouseout", e => {
-    showLonely = false;
-  });
-  map.data.setStyle(feature => {
-    let lon = feature.getProperty("PREVALENCE");
-    let value = 255 - Math.round(mapNumber(lon, 0, 5, 0, 255));
-    let color = "rgb(" + value + "," + value + "," + 0 + ")";
-    return {
-      fillColor: color,
-      strokeWeight: 1
-    };
+  /**
+   * Find the function that loads a GeoJson file in
+   * the documentation, and load the file from this path
+   *
+   * https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson
+   *
+   * "assets/data/lonely.geojson"
+   */
+
+  /**
+   * Fix this code so that whenever we mouseover one of the
+   * elements, the value is displayed on our page.
+   *
+   * https://developers.google.com/maps/documentation/javascript/datalayer#change_appearance_dynamically
+   */
+
+  map.data.setStyle((feature: any) => {
+    // let lon =
+    /**
+     * Use the documentation to receive the
+     * Prevalence value of each feature.
+     * https://developers.google.com/maps/documentation/javascript/datalayer#declarative_style_rules
+     *
+     *
+     * If you do not undestand what the function mapNumber does, read it and ask me!
+     */
+    // let value = 255 - Math.round(mapNumber(lon, 0, 5, 0, 255));
+    // let color = "rgb(" + value + "," + value + "," + 0 + ")";
+    // return {
+    //   fillColor: color,
+    //   strokeWeight: 1
+    // };
   });
   infoWindow = new google.maps.InfoWindow();
+  /**
+   * Let's create an info window which will display the prevalence information
+   * when a shape/feature is clicked.
+   */
   map.data.addListener("click", e => {
-    infoWindow.setPosition(e.latLng);
-    infoWindow.setContent(`<div class="overlay">
-    <p><b>Prevalence factor of Loneliness of those over the age of 65: </b>
-      ${e.feature.getProperty("PREVALENCE")}</p></div>`);
-    infoWindow.open(map);
+    /**
+     * Info window here
+     */
   });
 }
